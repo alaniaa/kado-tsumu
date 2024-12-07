@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Undangan Natal</title>
+    <style>
+        /* Menambahkan font "Tenny Bikini" dari Google Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Courgette&display=swap'); /* Ganti dengan font yang diinginkan */
+
+        body {
+            font-family: 'Mirador', serif; /* Default font body */
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background: #e63946;
+            background-image: linear-gradient(45deg, #a8dadc, #f1a7c3); /* Gradien Baby Blue dan Hibiscus */
+            background-size: 400% 400%;
+            animation: gradient 10s ease infinite;
+            color: white;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        h2 {
+            font-family: 'Tenny Bikini', cursive; /* Menggunakan font Tenny Bikini untuk judul utama */
+            font-size: 3rem; /* Ukuran font yang sesuai */
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px gold, 0 0 40px gold; /* Emas dengan shadow putih */
+            color: lemon;
+            text-align: center;
+            -webkit-text-stroke: 1px #fffd400; /* Outline tipis warna caramel */
+            text-stroke: 1px #fffd400; /* Outline tipis warna caramel */
+            white-space: nowrap; /* Menjaga teks tetap satu baris */
+        }
+
+        p {
+            font-size: 1.2rem;
+        }
+
+        input {
+            width: 80%;
+            max-width: 300px;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            background-color: #ffffff;
+            color: #333;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        button:hover {
+            background-color: #d62828;
+            color: white;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .nomor-urut {
+            background-color: #d62828;
+            color: #ffffff;
+            font-size: 5rem;
+            font-weight: bold;
+            border-radius: 50%;
+            padding: 40px;
+            display: inline-block;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+            margin: 20px 0;
+            transform: rotate(-15deg);
+            position: relative;
+            z-index: 2;
+        }
+
+        .nomor-urut::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            background-color: #ff6347;
+            border-radius: 50%;
+            z-index: -1;
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        footer {
+            margin-top: 30px;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Animasi Salju */
+        .snowflake {
+            position: absolute;
+            top: -10px;
+            color: white;
+            font-size: 1.5rem;
+            user-select: none;
+            pointer-events: none;
+            animation: snow 10s linear infinite;
+        }
+
+        @keyframes snow {
+            0% { transform: translateY(-100px); }
+            100% { transform: translateY(100vh); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Form Login -->
+        <div id="login-form">
+            <h2>🎄 Selamat Datang 🎄</h2>
+            <p>Masukkan Nama Lengkap dan Password untuk Melanjutkan</p>
+            <form id="form">
+                <input type="text" id="nama" placeholder="Nama Lengkap" required>
+                <br>
+                <input type="password" id="password" placeholder="Password" required>
+                <br>
+                <button type="button" onclick="login()">Login</button>
+            </form>
+        </div>
+
+        <!-- Halaman Setelah Login -->
+        <div id="welcome-page" class="hidden">
+            <h2>✨ Nomor Urut ✨</h2>
+            <div class="ornamen">
+                <span id="nomor-urut" class="nomor-urut"></span>
+            </div>
+            <p>Jangan lupa screenshot dan simpan</p>
+        </div>
+    </div>
+    <footer>Acara Natal SMK Farmasi Bina Farma Madiun</footer>
+
+    <!-- Elemen Salju -->
+    <div class="snowflakes"></div>
+
+    <script>
+        // Data pengunjung disimpan di Local Storage
+        let dataPengunjung = JSON.parse(localStorage.getItem("dataPengunjung")) || {};
+        let nomorUrut = parseInt(localStorage.getItem("nomorUrut")) || 0;
+
+        function login() {
+            const nama = document.getElementById("nama").value.trim();
+            const password = document.getElementById("password").value.trim();
+
+            if (password !== "n4tA12u") {
+                alert("Password salah!");
+                return;
+            }
+
+            if (!nama) {
+                alert("Nama tidak boleh kosong!");
+                return;
+            }
+
+            // Cek apakah nama sudah ada di data
+            if (!dataPengunjung[nama]) {
+                nomorUrut++;
+                dataPengunjung[nama] = nomorUrut;
+
+                // Simpan data ke Local Storage
+                localStorage.setItem("dataPengunjung", JSON.stringify(dataPengunjung));
+                localStorage.setItem("nomorUrut", nomorUrut);
+            }
+
+            // Tampilkan nomor urut
+            document.getElementById("nomor-urut").innerText = dataPengunjung[nama];
+
+            // Sembunyikan form login dan tampilkan halaman selamat datang
+            document.getElementById("login-form").classList.add("hidden");
+            document.getElementById("welcome-page").classList.remove("hidden");
+        }
+
+        // Fungsi untuk membuat elemen salju secara acak
+        function createSnowflakes() {
+            const snowflakeCount = 30;
+            const snowflakesContainer = document.querySelector('.snowflakes');
+            for (let i = 0; i < snowflakeCount; i++) {
+                const snowflake = document.createElement('div');
+                snowflake.classList.add('snowflake');
+                snowflake.innerHTML = '❄';
+                snowflake.style.left = `${Math.random() * 100}%`;
+                snowflake.style.animationDuration = `${Math.random() * 5 + 5}s`; // Durasi acak untuk salju
+                snowflakesContainer.appendChild(snowflake);
+            }
+        }
+
+        // Inisialisasi salju
+        createSnowflakes();
+    </script>
+</body>
+</html>
